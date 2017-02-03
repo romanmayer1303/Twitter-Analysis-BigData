@@ -1,6 +1,7 @@
 package bigdata;
 import java.lang.StringBuilder;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Tweet implements Serializable{
 	
@@ -11,56 +12,60 @@ public class Tweet implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//private String user;
-	//private String location;
+
+	private String location;
 	private String date;
 	private String text;
-	private transient int numberOfHashtags;
-	private String hashtags;
-	private boolean hasHashtags;
+	private ArrayList<String> hashtags;
 	private int numberOfRetweets;
-	//private int likes;
-	//private int follower;
-	//private String device;
+	private int numberOfLikes;
+	private int numberOfFollowers;
+	private String device;
 	
 	Tweet(){
-		//user = "";
-		//location = "";
+		location = "";
 		date = "";
 		text = "";
-		numberOfHashtags = 0;
-		hashtags = "";
-		hasHashtags = false;
-		//numberOfRetweets = 0;
-		//likes = 0;
-		//follower = 0;
-		//device = "";
+		hashtags = new ArrayList<String>();
+		numberOfRetweets = 0;
+		numberOfLikes = 0;
+		numberOfFollowers = 0;
+		device = "";
 	}
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		sb.append("date: " + date + ", ");
-		sb.append("text: " + text + ", ");
-		sb.append("hashtags: " + hashtags);
+		sb.append(date + "\t");
+		sb.append(text + "\t[ ");
+		
+		StringBuilder hsb = new StringBuilder();
+		for(String hash : hashtags){
+			hsb.append(hash + " ");
+		}
+		hsb.append("]\t");
+		sb.append(hsb.toString());
+		sb.append(Integer.toString(numberOfRetweets) + "\t");
+		sb.append(Integer.toString(numberOfLikes) + "\t");
+		sb.append(Integer.toString(numberOfFollowers) + "\t");
+		sb.append(device);
 		return sb.toString();
 		
 	}
 	
-	public void setHashtags(String hashtags) {
+	public void setHashtags(ArrayList<String> hashtags) {
 		this.hashtags = hashtags;
 	}
 	
-	public String getHashtags(){
+	public ArrayList<String> getHashtags(){
 		return hashtags;
 	}
 	
-	//public void setUser(String u){
-	//	user = u;
-	//}
-		
-	
-	public boolean hasHashtags(){
-		return hasHashtags;
+	public ArrayList<String> getHashtagsToLower(){
+		ArrayList<String> tmp = new ArrayList<String>();
+		for(String hashtag: hashtags){
+			tmp.add(hashtag.toLowerCase());
+		}
+		return tmp;
 	}
 	
 	public String getText() {
@@ -71,20 +76,28 @@ public class Tweet implements Serializable{
 		this.text = text;
 	}
 
-	public int getNumberOfHashtags() {
-		return numberOfHashtags;
-	}
-
-	public void setNumberOfHashtags(int numberOfHashtags) {
-		this.numberOfHashtags = numberOfHashtags;
-	}
-
 	public int getNumberOfRetweets() {
 		return numberOfRetweets;
 	}
 
 	public void setNumberOfRetweets(int numberOfRetweets) {
 		this.numberOfRetweets = numberOfRetweets;
+	}
+	
+	public int getNumberOfLikes() {
+		return numberOfLikes;
+	}
+	
+	public void setNumberOfLikes(int numberOfLikes) {
+		this.numberOfLikes = numberOfLikes;
+	}
+
+	public void setNumberOfFollowers(int numberOfFollowers) {
+		this.numberOfFollowers = numberOfFollowers;
+	}
+	
+	public int getNumberOfFollowers() {
+		return numberOfFollowers;
 	}
 
 	public String getDate() {
@@ -94,40 +107,4 @@ public class Tweet implements Serializable{
 	public void setDate(String date) {
 		this.date = date;
 	}
-
-	public boolean isHasHashtags() {
-		return hasHashtags;
-	}
-
-	public void setHasHashtags(boolean hasHashtags) {
-		this.hasHashtags = hasHashtags;
-	}
-
-	/*public String toString(){
-		StringBuilder sb = new StringBuilder();
-		for(String tmp : hashtags){
-			sb.append(tmp + "\t");
-		}
-		return sb.toString();
-	}*/
-	
-	/*
-	private void writeObject(java.io.ObjectOutputStream out) throws IOException{
-		out.defaultWriteObject(numberOfHashtags);
-		for(int i = 0; i < numberOfHashtags; ++i){
-			out.defaultWriteObject(hashtags.get(i));
-    	}
-    }
-	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
-		
-		numberOfHashtags = in.defaultReadObject();
-	    for(int i = 0; i < numberOfHashtags; ++i){
-	    	hashtags.add(in.defaultReadObject());
-	     }
-    }
-	
-	private void readObjectNoData() throws ObjectStreamException{
-    	return;
-    }
-    */
 }

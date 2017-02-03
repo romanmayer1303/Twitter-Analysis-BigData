@@ -1,24 +1,24 @@
 package bigdata;
-
-import java.util.Date;
 import java.lang.StringBuilder;
-import java.util.ArrayList;
 import java.io.Serializable;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectStreamException;
 
 public class Tweet implements Serializable{
 	
+
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//private String user;
 	//private String location;
-	//private Date date;
-	//private String text;
+	private String date;
+	private String text;
 	private transient int numberOfHashtags;
-	private ArrayList<String> hashtags;
+	private String hashtags;
 	private boolean hasHashtags;
-	//private int numberOfRetweets;
+	private int numberOfRetweets;
 	//private int likes;
 	//private int follower;
 	//private String device;
@@ -26,10 +26,10 @@ public class Tweet implements Serializable{
 	Tweet(){
 		//user = "";
 		//location = "";
-		//date = new Date();
-		//text = "";
+		date = "";
+		text = "";
 		numberOfHashtags = 0;
-		ArrayList<String> hashtags = new ArrayList<String>();
+		hashtags = "";
 		hasHashtags = false;
 		//numberOfRetweets = 0;
 		//likes = 0;
@@ -37,40 +37,79 @@ public class Tweet implements Serializable{
 		//device = "";
 	}
 	
-	//public String getUser(){
-	//	return user;
-	//}
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("date: " + date + ", ");
+		sb.append("text: " + text + ", ");
+		sb.append("hashtags: " + hashtags);
+		return sb.toString();
+		
+	}
 	
-	public ArrayList<String> getHashtags(){
+	public void setHashtags(String hashtags) {
+		this.hashtags = hashtags;
+	}
+	
+	public String getHashtags(){
 		return hashtags;
 	}
 	
 	//public void setUser(String u){
 	//	user = u;
 	//}
-	
-	public void setHashtags(ArrayList<String> s){
-		hashtags = s;
-		numberOfHashtags = hashtags.size();
-	}
-	
-	public void addHashtag(String tag){
-		hasHashtags = true;
-		hashtags.add(tag);
-		numberOfHashtags++;
-	}
+		
 	
 	public boolean hasHashtags(){
 		return hasHashtags;
 	}
 	
-	public String toString(){
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public int getNumberOfHashtags() {
+		return numberOfHashtags;
+	}
+
+	public void setNumberOfHashtags(int numberOfHashtags) {
+		this.numberOfHashtags = numberOfHashtags;
+	}
+
+	public int getNumberOfRetweets() {
+		return numberOfRetweets;
+	}
+
+	public void setNumberOfRetweets(int numberOfRetweets) {
+		this.numberOfRetweets = numberOfRetweets;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public boolean isHasHashtags() {
+		return hasHashtags;
+	}
+
+	public void setHasHashtags(boolean hasHashtags) {
+		this.hasHashtags = hasHashtags;
+	}
+
+	/*public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(String tmp : hashtags){
 			sb.append(tmp + "\t");
 		}
 		return sb.toString();
-	}
+	}*/
 	
 	/*
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException{

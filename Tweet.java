@@ -118,7 +118,7 @@ public class Tweet implements Serializable{
 		this.device = device;
 	}
 	
-	public Tweet readStringToTweet(String s) throws StringToTweetConversionException{
+	public static Tweet readStringToTweet(String s) throws StringToTweetConversionException{
 		Tweet tmp = new Tweet();
 		StringTokenizer tok = new StringTokenizer(s, "\t");
 		

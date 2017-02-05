@@ -182,6 +182,15 @@ public class Tweet implements Serializable{
 		
 		return tmp;
 	}
+	
+	public boolean containsHashtag(ArrayList<String> importantHashtags){
+		for(String hashtag: importantHashtags){
+			if(this.getHashtagsToLower().contains(hashtag.toLowerCase())){
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 class StringToTweetConversionException extends Exception {

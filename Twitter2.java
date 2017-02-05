@@ -104,9 +104,10 @@ public class Twitter2{
 						}
 						return null;
 					});
-		JavaRDD<Tweet> tweets = data.repartition(1).filter(tweet -> tweet != null);
+		JavaRDD<Tweet> tweets = data.repartition(1).filter(tweet -> tweet != null && tweet.containsHashtag(importantHashtags));
 		
 		
+		/*
 		if(importantHashtags.size() > 0){
 			tweets = tweets.filter(tweet -> {
 				ArrayList<String> tmp = tweet.getHashtagsToLower();
@@ -118,6 +119,7 @@ public class Twitter2{
 				return false;
 			});
 		}
+		*/
 		
 		tweets.saveAsTextFile(args[args.length-1]);
 

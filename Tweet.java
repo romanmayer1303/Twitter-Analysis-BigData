@@ -171,12 +171,14 @@ public class Tweet implements Serializable{
 		else{
 			throw new StringToTweetConversionException("No number of followers found.");
 		}
+		/*
 		if(tok.hasMoreTokens()){
 			tmp.setDevice(tok.nextToken());
 		}
 		else{
 			throw new StringToTweetConversionException("No device found.");
 		}
+		*/
 		
 		return tmp;
 	}

@@ -34,6 +34,8 @@ public class TwitterMessages{
 			return null;			
 		});
 
+		//MAGA
+		//
 		JavaPairRDD<String, Integer> MAGA = tweets.flatMapToPair(
 				new PairFlatMapFunction<Tweet, String, Integer>(){
 					private static final long serialVersionUID = 1L;
@@ -55,6 +57,9 @@ public class TwitterMessages{
 				}).reduceByKey((x,y) -> x+y);
 		MAGA.saveAsTextFile(args[1] + "/magaV");	
 		
+		
+		//CROOKED
+		//
 		JavaPairRDD<String, Integer> crooked = tweets.flatMapToPair(
 				new PairFlatMapFunction<Tweet, String, Integer>(){
 					private static final long serialVersionUID = 1L;
@@ -74,6 +79,9 @@ public class TwitterMessages{
 				}).reduceByKey((x,y) -> x+y);
 		crooked.saveAsTextFile(args[1] + "/crooked");
 		
+		
+		//NEVER
+		//
 		JavaPairRDD<String, Integer> never = tweets.flatMapToPair(
 				new PairFlatMapFunction<Tweet, String, Integer>(){
 					private static final long serialVersionUID = 1L;

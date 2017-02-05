@@ -1,7 +1,6 @@
 package bigdata;
 
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.Function;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.apache.spark.api.java.JavaRDD;
@@ -37,6 +36,8 @@ public class Twitter2{
 					}
 				
 				}
+				
+				
 	
 			}
 			catch(FileNotFoundException e){
@@ -51,11 +52,7 @@ public class Twitter2{
 		final ArrayList<String> importantHashtags = hashtagsFromFile;
 	
 		JavaRDD<Tweet> data = sc.textFile(args[0]).cache().map(line ->{
-					/**
-					 * 
-					 */
-					//private static final long serialVersionUID = 1L;
-				
+					//private static final long serialVersionUID = 1L;				
 						JSONObject tweet = new JSONObject(line);
 						JSONObject entities = null;
 						JSONArray hashtags = null;
@@ -66,46 +63,52 @@ public class Twitter2{
 						ArrayList<String> sbHashtags = new ArrayList<String>();
 						Tweet resultTweet = new Tweet();
 						
-						//Nur Tweets mit mindestens einem Hashtag werden beachtet hier
-						//Ja, die hunderten If abfragen müssen sein, da sonst Errors kommen
+						//Get hashtags from Tweets
 						if(tweet.has("entities")){
 							entities = tweet.getJSONObject("entities");
 							if(entities.has("hashtags")){
 								hashtags = entities.getJSONArray("hashtags");
 								if(hashtags.length()>=1){
-									
 									//Hashtags auslesen
 									for(int i = 0; i<hashtags.length();i++){
 										hashtag = hashtags.getJSONObject(i);
-										sbHashtags.add(hashtag.getString("text"));
+										sbHashtags.add(hashtag.getString("text").toLowerCase());
 									}
 									resultTweet.setHashtags(sbHashtags);
-									
-									//Text auslesen
-									if(tweet.has("text")){
-										resultTweet.setText(tweet.getString("text"));
-									}
-									
-									//Datum auslesen
-									if(tweet.has("created_at")){
-										date = tweet.getString("created_at");
-										dateA = date.split("\\s+");
-										sbTweet.append(dateA[5]);
-										sbTweet.append(getMonth(dateA[1]));
-										sbTweet.append(dateA[2]);
-										resultTweet.setDate(sbTweet.toString());
-										
-									}
-									
-									//Return vom endgültigem Tweet, noch als String
-									return resultTweet;
 								}	
 							}
 						}
-						return null;
+						
+						//Datum auslesen
+						if(tweet.has("created_at")){
+							date = tweet.getString("created_at");
+							dateA = date.split("\\s+");
+							sbTweet.append(dateA[5]);
+							sbTweet.append(getMonth(dateA[1]));
+							sbTweet.append(dateA[2]);
+							resultTweet.setDate(sbTweet.toString());
+							
+						}
+						
+						//Text auslesen
+						if(tweet.has("text")){
+							resultTweet.setText(tweet.getString("text").toLowerCase().replace("\n", "").replace("\r",""));
+						}
+						
+						return resultTweet;
+						
 					});
-		JavaRDD<Tweet> tweets = data.repartition(1).filter(tweet -> tweet != null && tweet.containsHashtag(importantHashtags));
-		
+		JavaRDD<Tweet> tweets = data.repartition(1).filter(tweet -> (
+				(tweet.getDate().length()>4)
+				&& (tweet.containsHashtag(importantHashtags) ||
+				tweet.getText().contains("make america") ||
+				tweet.getText().contains("makeamerica") ||
+				tweet.getText().contains("crooked") ||
+				tweet.getText().contains("your account") ||
+				tweet.getText().contains("never")
+				))
+		);
+		// 
 		
 		/*
 		if(importantHashtags.size() > 0){
@@ -123,6 +126,7 @@ public class Twitter2{
 		
 		tweets.saveAsTextFile(args[args.length-1]);
 
+		
 		
 		
 	}

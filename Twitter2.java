@@ -52,7 +52,10 @@ public class Twitter2{
 		final ArrayList<String> importantHashtags = hashtagsFromFile;
 	
 		JavaRDD<Tweet> data = sc.textFile(args[0]).cache().map(line ->{
-					//private static final long serialVersionUID = 1L;				
+					//private static final long serialVersionUID = 1L;
+						if(!line.contains("created_at")){
+							return new Tweet();
+						}			
 						JSONObject tweet = new JSONObject(line);
 						JSONObject entities = null;
 						JSONArray hashtags = null;

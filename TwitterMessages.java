@@ -14,12 +14,12 @@ import java.util.List;
 
 public class TwitterMessages{
 
-	public static void main(String[] args){
-	
+	public static void main(String[] args) throws NullPointerException {
+
 		SparkConf conf = new SparkConf().setAppName("TwitterMessageEvolution");
 		@SuppressWarnings("resource")
-		JavaSparkContext sc = new JavaSparkContext(conf);			
-		
+		JavaSparkContext sc = new JavaSparkContext(conf);
+
 		JavaRDD<Tweet> tweets = sc.textFile(args[0]).cache().map(line->{
 			String[] tweet = line.split("\t");
 			if(tweet.length >1){
@@ -31,7 +31,7 @@ public class TwitterMessages{
 				//resultTweet.setNumberOfFollowers(Integer.parseInt(tweet[5]));
 				return resultTweet;
 			}
-			return null;			
+			return null;
 		});
 
 		//MAGA
@@ -43,21 +43,23 @@ public class TwitterMessages{
 						String text = tweet.getText();
 						String key1;
 						List<Tuple2<String, Integer>> result = new ArrayList<>();
-												
+
 						//Different Hashtags
-						
+
 						key1 = StringUtils.substringBetween(text, "makeamerica", "again");
-						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
-						
+						if(!StringUtils.isEmpty(key1)) result.add(new Tuple2<>(key1.replaceAll("[^a-zA-Z]","") + "," + tweet.getDate(), 1));
+						// StringUtils.isEmpty(s) returns true, if s is "", " ", or null
+						// regexp from above can return empty String, so we catch that here
+
 						key1 = StringUtils.substringBetween(text, "make america ", " ");
-						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
-						
-						return result.iterator();	
+						if(!StringUtils.isEmpty(key1)) result.add(new Tuple2<>(key1.replaceAll("[^a-zA-Z]","") + "," + tweet.getDate(), 1));
+
+						return result.iterator();
 					}
 				}).reduceByKey((x,y) -> x+y);
-		MAGA.saveAsTextFile(args[1] + "/magaV");	
-		
-		
+		MAGA.saveAsTextFile(args[1] + "/maga");
+
+
 		//CROOKED
 		//
 		JavaPairRDD<String, Integer> crooked = tweets.flatMapToPair(
@@ -67,19 +69,19 @@ public class TwitterMessages{
 						String text = tweet.getText();
 						String key1;
 						List<Tuple2<String, Integer>> result = new ArrayList<>();
-						
+
 						//Different Hashtags
 						key1 = StringUtils.substringBetween(text, "crooked ", " ");
-						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
+						if(!StringUtils.isEmpty(key1)) result.add(new Tuple2<>(key1.replaceAll("[^a-zA-Z]","") + "," + tweet.getDate(), 1));
 						key1 = StringUtils.substringBetween(text, "crooked", " ");
-						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
-						
-						return result.iterator();	
+						if(!StringUtils.isEmpty(key1)) result.add(new Tuple2<>(key1.replaceAll("[^a-zA-Z]","") + "," + tweet.getDate(), 1));
+
+						return result.iterator();
 					}
 				}).reduceByKey((x,y) -> x+y);
 		crooked.saveAsTextFile(args[1] + "/crooked");
-		
-		
+
+
 		//NEVER
 		//
 		JavaPairRDD<String, Integer> never = tweets.flatMapToPair(
@@ -89,39 +91,20 @@ public class TwitterMessages{
 						String text = tweet.getText();
 						String key1;
 						List<Tuple2<String, Integer>> result = new ArrayList<>();
-						
+
 						//Different Hashtags
 						key1 = StringUtils.substringBetween(text, "never ", " ");
-						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
+						if(!StringUtils.isEmpty(key1)) result.add(new Tuple2<>(key1.replaceAll("[^a-zA-Z]","") + "," + tweet.getDate(), 1));
 						key1 = StringUtils.substringBetween(text, "never", " ");
-						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
-						
-						return result.iterator();	
+						if(!StringUtils.isEmpty(key1)) result.add(new Tuple2<>(key1.replaceAll("[^a-zA-Z]","") + "," + tweet.getDate(), 1));
+
+						return result.iterator();
 					}
 				}).reduceByKey((x,y) -> x+y);
 		never.saveAsTextFile(args[1] + "/never");
-		
-		
-		
+
+
+
 	}
-	
-	
-	public static String getMonth(String month){
-		switch(month){
-			case "Jan": return "01";
-			case "Feb": return "02"; 
-			case "Mar": return "03"; 
-			case "Apr": return "04"; 
-			case "May": return "05"; 
-			case "June": return "06"; 
-			case "July": return "07"; 
-			case "Aug": return "08"; 
-			case "Sept": return "09"; 
-			case "Oct": return "10"; 
-			case "Nov": return "11"; 
-			case "Dec": return "12";
-			default: return "01";
-			}
-		}
-		
+
 }

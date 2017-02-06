@@ -34,11 +34,8 @@ public class Twitter2{
 					while(tok.hasMoreTokens()){
 						hashtagsFromFile.add(tok.nextToken());
 					}
-				
 				}
-				
-				
-	
+
 			}
 			catch(FileNotFoundException e){
 				System.out.println("Hashtagfile " + args[1] + " not found. Continuing without importance-sampling of hashtags.");
@@ -52,10 +49,7 @@ public class Twitter2{
 		final ArrayList<String> importantHashtags = hashtagsFromFile;
 	
 		JavaRDD<Tweet> data = sc.textFile(args[0]).cache().map(line ->{
-					//private static final long serialVersionUID = 1L;
-						if(!line.contains("created_at")){
-							return new Tweet();
-						}			
+					//private static final long serialVersionUID = 1L;				
 						JSONObject tweet = new JSONObject(line);
 						JSONObject entities = null;
 						JSONArray hashtags = null;
@@ -63,7 +57,7 @@ public class Twitter2{
 						String date = "";
 						String[] dateA;
 						StringBuilder sbTweet = new StringBuilder();
-						ArrayList<String> sbHashtags = new ArrayList<String>();
+						ArrayList<String> sbHashtags = new ArrayList<>();
 						Tweet resultTweet = new Tweet();
 						
 						//Get hashtags from Tweets
@@ -90,7 +84,6 @@ public class Twitter2{
 							sbTweet.append(getMonth(dateA[1]));
 							sbTweet.append(dateA[2]);
 							resultTweet.setDate(sbTweet.toString());
-							
 						}
 						
 						//Text auslesen
@@ -111,21 +104,6 @@ public class Twitter2{
 				tweet.getText().contains("never")
 				))
 		);
-		// 
-		
-		/*
-		if(importantHashtags.size() > 0){
-			tweets = tweets.filter(tweet -> {
-				ArrayList<String> tmp = tweet.getHashtagsToLower();
-				for(int i = 0; i < importantHashtags.size(); ++i){
-					if(tmp.contains(importantHashtags.get(i).toLowerCase())){
-						return true;
-					}
-				}
-				return false;
-			});
-		}
-		*/
 		
 		tweets.saveAsTextFile(args[args.length-1]);
 
@@ -142,14 +120,14 @@ public class Twitter2{
 			case "Mar": return "03"; 
 			case "Apr": return "04"; 
 			case "May": return "05"; 
-			case "June": return "06"; 
-			case "July": return "07"; 
+			case "Jun": return "06";
+			case "Jul": return "07";
 			case "Aug": return "08"; 
-			case "Sept": return "09"; 
+			case "Sep": return "09";
 			case "Oct": return "10"; 
 			case "Nov": return "11"; 
 			case "Dec": return "12";
-			default: return "01";
+			default: return "00";
 			}
 		}
 }

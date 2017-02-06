@@ -24,7 +24,7 @@ Put the #hashtags you're looking for in a .csv file and provide the path to it. 
 TWITTER2<br>
 ./bin/spark-submit --master local --class bigdata.Twitter2 target/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/tweets/test ~/Downloads/tweets/Hashtagfile/hashtagfile.csv ~/Downloads/tweets/Outputfile_Twitter2_1
 
-TWITTERMESSAGES (wants only folder to hashtagfile, not the .csv)<br>
+TWITTERMESSAGES (wants no hashtag file)<br>
 ./bin/spark-submit --master local --class bigdata.TwitterMessages target/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/tweets/Outputfile_Twitter2_1 ~/Downloads/tweets/Hashtagfile ~/Downloads/tweets/Outputfile_TwitterMessages_1 
 
 TWITTERTIMEEVOLUTION<br>

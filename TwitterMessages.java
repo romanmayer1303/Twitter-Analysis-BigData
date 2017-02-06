@@ -46,10 +46,10 @@ public class TwitterMessages{
 												
 						//Different Hashtags
 						
-						key1 = StringUtils.substringBetween(text, "makeamerica", "again").trim();
+						key1 = StringUtils.substringBetween(text, "makeamerica", "again");
 						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
 						
-						key1 = StringUtils.substringBetween(text, "make america ", " ").trim();
+						key1 = StringUtils.substringBetween(text, "make america ", " ");
 						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
 						
 						return result.iterator();	
@@ -69,9 +69,9 @@ public class TwitterMessages{
 						List<Tuple2<String, Integer>> result = new ArrayList<>();
 						
 						//Different Hashtags
-						key1 = StringUtils.substringBetween(text, "crooked ", " ").trim();
+						key1 = StringUtils.substringBetween(text, "crooked ", " ");
 						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
-						key1 = StringUtils.substringBetween(text, "crooked", " ").trim();
+						key1 = StringUtils.substringBetween(text, "crooked", " ");
 						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
 						
 						return result.iterator();	
@@ -91,9 +91,9 @@ public class TwitterMessages{
 						List<Tuple2<String, Integer>> result = new ArrayList<>();
 						
 						//Different Hashtags
-						key1 = StringUtils.substringBetween(text, "never ", " ").trim();
+						key1 = StringUtils.substringBetween(text, "never ", " ");
 						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
-						key1 = StringUtils.substringBetween(text, "never", " ").trim();
+						key1 = StringUtils.substringBetween(text, "never", " ");
 						if(key1 != null) result.add(new Tuple2<>(key1 + "," + tweet.getDate(), 1));
 						
 						return result.iterator();	

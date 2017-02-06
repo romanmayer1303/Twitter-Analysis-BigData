@@ -3,9 +3,9 @@ Analyzing Twitter Data with Spark
 
 More detailed README will come soon.
 
-get Twitter data from https://archive.org/details/twitterstream
-The .tar files will be in subfolders in the form
-yyyy/mm/dd/xx/zz.json.bz2, (xx enumerates from 00 to max), e.g. 
+get Twitter data from https://archive.org/details/twitterstream <br>
+The .tar files will be in subfolders in the form <br>
+yyyy/mm/dd/xx/zz.json.bz2, (xx enumerates from 00 to max), e.g. <br>
 2016/07/01/00/00.json.bz2
 
 With our Spark program, all JSON files must be in one folder (no subfolders).
@@ -17,15 +17,15 @@ The numbers in the sequences ($(seq -f ...)) should be adjusted according to the
 
 ---
 
-There are 3 classes that can be executed. 
-I used the commands below.
-Put the #hashtags you're looking for in a .csv file and provide the path to it.
+There are 3 classes that can be executed. <br>
+I used the commands below. <br>
+Put the #hashtags you're looking for in a .csv file and provide the path to it. <br>
 
-TWITTER2
+TWITTER2<br>
 ./bin/spark-submit --master local --class bigdata.Twitter2 target/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/tweets/test ~/Downloads/tweets/Hashtagfile/hashtagfile.csv ~/Downloads/tweets/Outputfile_Twitter2_1
 
-TWITTERMESSAGES (wants only folder to hashtagfile, not the .csv)
+TWITTERMESSAGES (wants only folder to hashtagfile, not the .csv)<br>
 ./bin/spark-submit --master local --class bigdata.TwitterMessages target/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/tweets/Outputfile_Twitter2_1 ~/Downloads/tweets/Hashtagfile ~/Downloads/tweets/Outputfile_TwitterMessages_1 
 
-TWITTERTIMEEVOLUTION
+TWITTERTIMEEVOLUTION<br>
 ./bin/spark-submit --master local --class bigdata.TwitterTimeEvolution target/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/tweets/Outputfile_Twitter2_1 ~/Downloads/tweets/Hashtagfile/hashtagfile.csv ~/Downloads/tweets/Outputfile_TwitterTimeEvolution_1

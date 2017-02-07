@@ -68,7 +68,8 @@ public class TwitterTimeEvolution{
 		*/
 		
 		for(String hashtag: hashtagsFromFile){
-			JavaPairRDD<Integer,Integer> tmp = tweets.filter(t -> t.getHashtagsToLower().contains(hashtag.toLowerCase())).mapToPair(t -> new Tuple2<Integer, Integer>(Integer.parseInt(t.getDate()), 1)).cache();
+			JavaPairRDD<Integer,Integer> tmp = tweets.filter(t -> t.getHashtagsToLower().contains(hashtag.toLowerCase()))
+				.mapToPair(t -> new Tuple2<Integer, Integer>(Integer.parseInt(t.getDate()), 1)).cache();
 			
 			JavaPairRDD<Integer, Integer> hashtagsPerDay = tmp.reduceByKey((x,y)->x+y);
 			
